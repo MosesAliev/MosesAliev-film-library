@@ -1,5 +1,8 @@
 CREATE TABLE movies
 (
+	created_at TIMESTAMP,
+	updated_at TIMESTAMP,
+	deleted_at TIMESTAMP,
 	Name varchar(150) PRIMARY KEY,
 	Description varchar(1000),
 	realize_date timestamp,
@@ -8,6 +11,9 @@ CREATE TABLE movies
 
 CREATE TABLE actors
 (
+	created_at TIMESTAMP,
+	updated_at TIMESTAMP,
+	deleted_at TIMESTAMP,
 	Name varchar(150) PRIMARY KEY,
 	sex boolean,
 	born timestamp
@@ -15,8 +21,11 @@ CREATE TABLE actors
 
 CREATE TABLE lists
 (
+	created_at TIMESTAMP,
+	updated_at TIMESTAMP,
+	deleted_at TIMESTAMP,
 	Movie varchar(150),
 	Actor varchar(150),
-	FOREIGN KEY Movie REFERENCES movies(name),
-	FOREIGN KEY Actor REFERENCES movies(name)
-)
+	FOREIGN KEY (Actor) REFERENCES actors(Name),
+	FOREIGN KEY (Movie) REFERENCES movies(Name)
+);
