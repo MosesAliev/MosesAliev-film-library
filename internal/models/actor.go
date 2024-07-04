@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Актёр
 type Actor struct {
 	gorm.Model
 	Name string    `json:"name"`

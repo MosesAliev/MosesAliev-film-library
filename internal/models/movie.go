@@ -2,6 +2,7 @@ package models
 
 import "time"
 
+// Фильм
 type Movie struct {
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
