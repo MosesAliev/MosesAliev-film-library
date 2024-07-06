@@ -19,9 +19,9 @@ func EraseMovieHandler(w http.ResponseWriter, r *http.Request) {
 
 	var buf bytes.Buffer
 	buf.ReadFrom(r.Body)
-	deletedMovie := models.Movie{}
-	json.Unmarshal(buf.Bytes(), &deletedMovie)
-	result := database.DB.Db.Delete(&deletedMovie) // запрос в БД для удаления информации о фильме
+	movie := models.Movie{}
+	json.Unmarshal(buf.Bytes(), &movie)
+	result := database.DB.Db.Where("name = ?", movie.Name).Delete(&movie) // запрос в БД для удаления информации о фильме
 	if result.Error != nil {
 		w.Header().Set("Content-Type", "applictaion/json")
 		w.Write([]byte("Фильм не найден"))
