@@ -21,7 +21,7 @@ func EraseActorHandler(w http.ResponseWriter, r *http.Request) {
 	buf.ReadFrom(r.Body)
 	actor := models.Actor{}
 	json.Unmarshal(buf.Bytes(), &actor)
-	result := database.DB.Db.Delete(&actor) // запрос в БД на удаление информации об актёре
+	result := database.DB.Db.Where("name = ?", actor.Name).Delete(&actor) // запрос в БД для удаления информации о фильме
 	if result.Error != nil {
 		w.Header().Set("Content-Type", "applictaion/json")
 		w.Write([]byte("Фильм не найден"))

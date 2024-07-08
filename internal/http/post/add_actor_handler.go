@@ -28,6 +28,7 @@ func AddActorHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Актёр уже есть в списке"))
 		return
 	}
+
 	w.Header().Set("Content-Type", "applictaion/json")
 	w.Write([]byte(fmt.Sprintf(`{"actor":"%s"}`, newActor.Name)))
 }

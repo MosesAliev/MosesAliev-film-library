@@ -2,10 +2,12 @@ package post
 
 import (
 	"bytes"
+	"database/sql"
 	"encoding/json"
 	"film-library/internal/database"
 	"film-library/internal/models"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -20,13 +22,19 @@ func AddMovieHandler(w http.ResponseWriter, r *http.Request) {
 
 	var buf bytes.Buffer
 	buf.ReadFrom(r.Body)
-	newMovie := models.Movie{}
+	var newMovie models.Movie
 	json.Unmarshal(buf.Bytes(), &newMovie)
+	fmt.Println(newMovie.Actors)
 	result := database.DB.Db.Create(&newMovie) // запрос в БД на добавление информации о фильме
 	if result.Error != nil {
 		w.Header().Set("Content-Type", "applictaion/json")
 		w.Write([]byte("Фильм уже есть в списке"))
 		return
+	}
+
+	for i := range len(newMovie.Actors) {
+		log.Print("здесь")
+		database.DB.Db.Exec("INSERT INTO lists (movie, actor) VALUES (@movie, @actor)", sql.Named("movie", newMovie.Name), sql.Named("actor", newMovie.Actors[i]))
 	}
 
 	w.Header().Set("Content-Type", "applictaion/json")
