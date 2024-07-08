@@ -63,11 +63,19 @@ func MovieHandler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			// запрос в БД с сортировкой по рейтингу
 			database.DB.Db.Order("rating").Find(&movies)
+			// запрос для вывода сипсков актеров фильмов
+			for i := range len(movies) {
+
+				database.DB.Db.Table("lists").Where("movie = ?", movies[i].Name).Select("actor").Find(&movies[i].Actors)
+				log.Print(movies[i].Actors[0])
+			}
+
 		}
 
 		jsonMovies, err := json.Marshal(movies)
+		log.Print(movies[0].Actors)
 		if err != nil {
-			log.Println("Ошибка десериализации")
+			log.Println("Ошибка сериализации")
 			w.WriteHeader(http.StatusConflict)
 			return
 		}
