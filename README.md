@@ -35,7 +35,7 @@
  - PostgreSQL
 
 Инструкция:
- 1. Соберите образ контейнера: docker buil --tag my-app:v1 .
+ 1. Соберите образ контейнера: docker build --tag my-app:v1 .
  2. Запустите: docker compose up
 
 
